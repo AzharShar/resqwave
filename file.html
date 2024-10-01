@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>ResQwave - Enhanced UI</title>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+   <style>
+      body {
+         margin: 0;
+         padding: 0;
+         height: 100vh;
+         display: flex;
+         justify-content: flex-end;
+         align-items: center;
+         font-family: 'Poppins', sans-serif;
+         background: linear-gradient(135deg, #4f93ff, #82e6e2);
+         position: relative;
+         overflow: hidden;
+         color: #fff;
+      }
+
+      /* Animated background */
+      body::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 100%);
+         opacity: 0.3;
+         animation: float 6s infinite ease-in-out;
+         z-index: 0;
+      }
+
+      @keyframes float {
+         0% { transform: translate(0, 0); }
+         50% { transform: translate(-10px, -20px); }
+         100% { transform: translate(0, 0); }
+      }
+
+      /* Watermark Text for ResQwave */
+      .watermark {
+         position: absolute;
+         top: 90%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         font-size: 120px; /* Increased size */
+         color: rgba(0, 0, 0, 0.05);
+         font-weight: bold;
+         letter-spacing: 15px;
+         z-index: 0;
+         pointer-events: none;
+      }
+
+      /* Neumorphism style for progress container */
+      .progress-container {
+         position: fixed;
+         right: 10px;
+         top: 50%;
+         transform: translateY(-50%);
+         background: rgba(255, 255, 255, 0.15); /* Updated background color */
+         padding: 30px;
+         border-radius: 20px;
+         box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2), -8px -8px 20px rgba(255, 255, 255, 0.2);
+         z-index: 1;
+         backdrop-filter: blur(15px); /* Slightly increased blur effect */
+      }
+
+      .progress-label {
+         margin-bottom: 5px;
+         font-weight: bold;
+      }
+
+      .progress-bar {
+          width: 100%;
+          background-color: rgba(255, 255, 255, 0.3);
+          border-radius: 10px;
+          overflow: hidden;
+          margin-bottom: 20px;
+      }
+
+      .progress-bar-inner {
+          height: 25px;
+          border-radius: 10px;
+          line-height: 25px;
+          color: white;
+          text-align: center;
+          font-size: larger; /* Increased font size */
+          transition: width .4s ease-in-out; /* Smooth transition */
+      }
+
+      .drowning {
+          width :40%;
+          background-color:#ff4d4d; /* Red for drowning */
+      }
+
+      .swimming {
+          width :90%; 
+          background-color:#4CAF50; /* Green for swimming */
+      }
+
+      /* Style for webcam video */
+      .video-container {
+          position :fixed; 
+          top :50px; 
+          left :10px; 
+          width :500px; 
+          border:none; 
+          border-radius :20px; 
+          box-shadow :8px8px20px rgba(0,0,0,.2),-8px-8px20px rgba(255,255,255,.2); 
+          overflow:hidden; 
+          z-index :1; 
+          backdrop-filter :blur(10px); 
+          transition :transform .3s ease; 
+      }
+
+      .video-container:hover {
+          transform :scale(1.05); /* Scale up on hover */
+      }
+
+      video {
+          width :100%; 
+          height:auto; 
+          border-radius :20px; 
+      }
+
+      /* Button styles */
+      .action-button {
+          padding :10px20px; 
+          border:none; 
+          border-radius :5px; 
+          background-color:#007BFF; /* Blue button */
+          color:white; 
+          font-weight:bold; 
+          cursor:pointer; 
+          transition :background-color .3s ease,inset-box-shadow .3s ease; 
+      }
+
+      .action-button:hover {
+          background-color:#0056b3; /* Darker blue on hover */
+          box-shadow :inset -2px -2px5 rgba(255,255,255,.5), inset2px2rgba(0,0,0,.5); /* Inner shadow effect */
+       }
+   </style>
+</head>
+<body>
+
+   <!-- Watermark Text -->
+   <div class="watermark">ResQwave</div>
+
+   <!-- Webcam Video Input -->
+   <div class="video-container">
+       <video id="webcam" autoplay></video>
+   </div>
+
+   <!-- Progress Bars -->
+   <div class="progress-container">
+       <div class="progress-label">Drowning</div>
+       <div class="progress-bar">
+           <div class="progress-bar-inner drowning">40%</div>
+       </div>
+
+       <div class="progress-label">Swimming</div>
+       <div class="progress-bar">
+           <div class="progress-bar-inner swimming">90%</div>
+       </div>
+
+       <!-- Action Button -->
+       <button class="action-button">Start Monitoring</button>
+   </div>
+
+   <script>
+       // Access the webcam and display video in the video element
+       const video = document.getElementById('webcam');
+
+       // Request access to the webcam
+       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+           navigator.mediaDevices.getUserMedia({ video:true })
+               .then(function(stream) {
+                   video.srcObject = stream;
+                   video.play();
+               })
+               .catch(function(err) {
+                   console.error("Error accessing webcam:" + err);
+               });
+       } else {
+           alert('Your browser does not support accessing the webcam');
+       }
+   </script>
+
+</body>
+</html>
